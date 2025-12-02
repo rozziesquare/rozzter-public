@@ -114,9 +114,260 @@
       border: 1px solid rgba(255,255,255,0.04);
     }
     .store-links a:focus { outline:2px solid rgba(255,255,255,0.12); outline-offset:3px; }
+
+    /* Hamburger menu (upper-left) */
+    .menu {
+      position:fixed;
+      top:1rem;
+      left:1rem;
+      z-index:1100;
+      font-family:inherit;
+    }
+    .menu-toggle {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:44px;
+      height:44px;
+      background: rgba(255,255,255,0.06);
+      color: var(--fg);
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:8px;
+      cursor:pointer;
+      padding:0;
+    }
+    .menu-toggle:focus { outline:2px solid rgba(255,255,255,0.12); outline-offset:3px; }
+
+    .menu-toggle .bar {
+      display:block;
+      width:18px;
+      height:2px;
+      background:var(--fg);
+      border-radius:2px;
+      position:relative;
+    }
+    .menu-toggle .bar::before,
+    .menu-toggle .bar::after {
+      content:"";
+      position:absolute;
+      left:0;
+      width:18px;
+      height:2px;
+      background:var(--fg);
+      border-radius:2px;
+    }
+    .menu-toggle .bar::before { top:-6px; }
+    .menu-toggle .bar::after  { top:6px; }
+
+    .menu-panel {
+      display:none;
+      margin-top:0.5rem;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      padding:0.5rem;
+      border-radius:8px;
+      min-width:150px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+    }
+    .menu-panel a {
+      display:block;
+      padding:0.5rem 0.75rem;
+      color:var(--fg);
+      text-decoration:none;
+      border-radius:6px;
+      font-weight:600;
+      font-size:0.95rem;
+    }
+    .menu-panel a:hover,
+    .menu-panel a:focus { background: rgba(255,255,255,0.04); outline:none; }
+
+    .menu.open .menu-panel { display:block; }
+  </style>
+
+  <!-- About panel styles (scoped, mobile-first, non-destructive) -->
+  <style>
+    /* Prefix: .about- to avoid collisions */
+    .about-panel {
+      position:fixed;
+      inset:0;
+      z-index:1200;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+      padding:0.5rem;
+      visibility:hidden;
+      opacity:0;
+      transition:opacity 180ms ease, visibility 180ms;
+      -webkit-overflow-scrolling:touch;
+    }
+    .about-panel.open {
+      visibility:visible;
+      opacity:1;
+    }
+    .about-panel__sheet {
+      width:100%;
+      max-width:900px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      color:var(--fg);
+      border-radius:12px 12px 0 0;
+      box-shadow: 0 -6px 30px rgba(0,0,0,0.6);
+      padding:1rem;
+      max-height:92vh;
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    /* Desktop: center panel and larger */
+    @media (min-width: 720px) {
+      .about-panel {
+        align-items:center;
+        padding:2rem;
+      }
+      .about-panel__sheet {
+        border-radius:12px;
+        padding:1.5rem;
+      }
+    }
+
+    .about-panel__header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:0.75rem;
+      margin-bottom:0.5rem;
+    }
+    .about-panel__title {
+      font-size:1.125rem;
+      font-weight:700;
+      color:var(--fg);
+      margin:0;
+    }
+    .about-panel__close {
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--fg);
+      padding:0.4rem 0.6rem;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .about-panel__close:focus { outline:2px solid rgba(255,255,255,0.12); outline-offset:3px; }
+
+    .about-panel section {
+      margin:0.75rem 0;
+      color: rgba(255,255,255,0.92);
+      line-height:1.45;
+    }
+    .about-panel h2 {
+      margin:0 0 0.4rem 0;
+      font-size:1rem;
+      color:var(--fg);
+    }
+    .about-panel p {
+      margin:0.35rem 0;
+      font-size:0.95rem;
+    }
+
+    .about-panel__cta-row {
+      display:flex;
+      gap:0.5rem;
+      margin-top:1rem;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .about-panel__back,
+    .about-panel__close-primary {
+      padding:0.6rem 0.9rem;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      background:rgba(255,255,255,0.06);
+      color:var(--fg);
+      border:1px solid rgba(255,255,255,0.06);
+      cursor:pointer;
+    }
+    .about-panel__back:focus,
+    .about-panel__close-primary:focus { outline:2px solid rgba(255,255,255,0.12); outline-offset:3px; }
+
+    /* Make sure links in dialog are readable */
+    .about-panel a { color: #e6f3ff; text-decoration:underline; }
+
+    /* content area padding adjustments for mobile */
+    .about-panel__sheet-inner { padding-bottom:1.25rem; }
+
+    /* small visual hint for scrollable content */
+    .about-panel__sheet::-webkit-scrollbar { height:8px; width:8px; }
+    .about-panel__sheet::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius:8px; }
   </style>
 </head>
 <body>
+  <!-- Hamburger menu -->
+  <nav class="menu" aria-label="Primary">
+    <button class="menu-toggle" id="menuToggle" aria-controls="site-menu" aria-expanded="false" aria-label="Open menu">
+      <span class="bar" aria-hidden="true"></span>
+    </button>
+
+    <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
+      <a href="#about" role="menuitem">About Rozzter</a>
+      <a href="https://rozziesquare.com" role="menuitem" id="aboutUsLink" target="_blank" rel="noopener noreferrer">About Us</a>
+    </div>
+  </nav>
+
+  <!-- About dialog/slide-over
+       Note: new IDs/classes prefixed with "about-" to avoid colliding with existing IDs/classes.
+  -->
+  <div id="aboutDialog" class="about-panel" role="dialog" aria-modal="true" aria-labelledby="aboutHeading" aria-hidden="true">
+    <div class="about-panel__sheet" role="document">
+      <div class="about-panel__sheet-inner">
+        <header class="about-panel__header">
+          <h1 id="aboutHeading" class="about-panel__title">About Rozzter</h1>
+          <div>
+            <button id="aboutCloseBtn" class="about-panel__close" aria-label="Close About">Close</button>
+          </div>
+        </header>
+
+        <main aria-labelledby="aboutHeading">
+          <p>Rozzter delivers fast player lookup by name, team, and jersey number. Identify who wears a number or quickly check a name. No account and no ads.</p>
+
+          <section>
+            <h2>Highlights</h2>
+            <p>Fast name, team, and jersey number lookup. Recent history for instant reopen. Dark and light themes (auto-saved). Clean, tap-friendly design. Local only: minimal preference storage.</p>
+          </section>
+
+          <section>
+            <h2>How It Works</h2>
+            <p>Search by player name. Or select a team, enter a jersey number, and launch the browser query. Use the Recent tab to jump back to past lookups.</p>
+          </section>
+
+          <section>
+            <h2>Privacy</h2>
+            <p>We do not show ads or share personal information with advertisers. We only store simple preferences (theme choice and recent lookups) on your device; nothing is sent to a server. External results open in your browser. If we ever introduce ads in the future, we will update this description and the privacy policy before they appear.</p>
+          </section>
+
+          <section>
+            <h2>Roadmap</h2>
+            <p>More sports and advanced roster features are planned as optional in-app purchases. Stay tuned.</p>
+          </section>
+
+          <section>
+            <h2>Disclaimer</h2>
+            <p>Not affiliated with, endorsed, or sponsored by the National Football League (NFL), its teams, players, or ESPN. All names are for identification only.</p>
+          </section>
+
+          <section>
+            <p><strong>Streamline roster discovery—install Rozzter today.</strong></p>
+          </section>
+
+          <div class="about-panel__cta-row">
+            <button id="aboutBackBtn" class="about-panel__back" type="button">Back to main page</button>
+            <button id="aboutClosePrimary" class="about-panel__close-primary" type="button">Close</button>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
   <main class="wrap" role="main" aria-labelledby="site-heading">
     <!-- Decorative 'app icon' letter -->
     <div class="card" aria-hidden="false">
@@ -142,6 +393,256 @@
   <script>
     // Insert current year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Hamburger menu toggle
+    (function(){
+      var nav = document.querySelector('.menu');
+      var btn = document.getElementById('menuToggle');
+      var panel = document.getElementById('site-menu');
+
+      btn.addEventListener('click', function(){
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        panel.setAttribute('aria-hidden', String(expanded));
+        nav.classList.toggle('open', !expanded);
+
+        // move focus to first link when opening
+        if (!expanded) {
+          var first = panel.querySelector('a');
+          if (first) first.focus();
+        } else {
+          btn.focus();
+        }
+      });
+
+      // Close menu when clicking outside or pressing Escape
+      document.addEventListener('click', function(e){
+        if (!nav.contains(e.target) && nav.classList.contains('open')) {
+          btn.setAttribute('aria-expanded', 'false');
+          panel.setAttribute('aria-hidden', 'true');
+          nav.classList.remove('open');
+        }
+      }, true);
+
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          btn.setAttribute('aria-expanded', 'false');
+          panel.setAttribute('aria-hidden', 'true');
+          nav.classList.remove('open');
+          btn.focus();
+        }
+      });
+    })();
+  </script>
+
+  <!-- About panel behavior (non-invasive, integrates with existing menu) -->
+  <script>
+    (function(){
+      var dialog = document.getElementById('aboutDialog');
+      var closeBtn = document.getElementById('aboutCloseBtn');
+      var closePrimary = document.getElementById('aboutClosePrimary');
+      var backBtn = document.getElementById('aboutBackBtn');
+      var aboutAnchors = document.querySelectorAll('a[href="#about"]');
+      var aboutUsLink = document.getElementById('aboutUsLink'); // new external About Us link
+      var lastFocused = null;
+      var focusableSelectors = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+      var focusable = [];
+      var firstFocusable = null;
+      var lastFocusable = null;
+      var supportsHistory = !!(window.history && history.pushState);
+
+      function updateFocusableList() {
+        focusable = Array.prototype.slice.call(dialog.querySelectorAll(focusableSelectors));
+        firstFocusable = focusable[0] || closeBtn;
+        lastFocusable = focusable[focusable.length - 1] || closeBtn;
+      }
+
+      function openAbout(e, options) {
+        if (e) e.preventDefault();
+        lastFocused = e && e.currentTarget ? e.currentTarget : document.activeElement;
+        dialog.setAttribute('aria-hidden','false');
+        dialog.classList.add('open');
+        updateFocusableList();
+        // close menu if open
+        try {
+          var menuNav = document.querySelector('.menu');
+          if (menuNav && menuNav.classList.contains('open')) {
+            var menuToggle = document.getElementById('menuToggle');
+            menuToggle && menuToggle.setAttribute('aria-expanded','false');
+            var siteMenu = document.getElementById('site-menu');
+            siteMenu && siteMenu.setAttribute('aria-hidden','true');
+            menuNav.classList.remove('open');
+          }
+        } catch (err) { /* no-op */ }
+
+        // focus management
+        (firstFocusable || closeBtn).focus();
+
+        // push history state if available
+        if (supportsHistory) {
+          try {
+            // avoid pushing duplicate states
+            if (!(history.state && history.state.__rozzter_about)) {
+              history.pushState({__rozzter_about:1}, '', location.pathname + '?about=1');
+            }
+          } catch (err) { /* ignore */ }
+        }
+
+        // attach listeners
+        document.addEventListener('keydown', onKeyDown, true);
+        document.addEventListener('focus', enforceFocus, true);
+      }
+
+      function closeAbout(byPop) {
+        dialog.setAttribute('aria-hidden','true');
+        dialog.classList.remove('open');
+        // remove listeners
+        document.removeEventListener('keydown', onKeyDown, true);
+        document.removeEventListener('focus', enforceFocus, true);
+
+        // restore focus
+        try {
+          if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus();
+          } else {
+            var menuToggle = document.getElementById('menuToggle');
+            menuToggle && menuToggle.focus();
+          }
+        } catch (err) {}
+
+        // If the close wasn't triggered by a popstate and history was used to open, go back
+        if (!byPop && supportsHistory) {
+          try {
+            if (history.state && history.state.__rozzter_about) {
+              history.back();
+            }
+          } catch (err) { /* ignore */ }
+        }
+      }
+
+      function onKeyDown(e) {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+          e.stopPropagation();
+          closeAbout(false);
+          return;
+        }
+        if (e.key === 'Tab') {
+          updateFocusableList();
+          if (focusable.length === 0) {
+            e.preventDefault();
+            return;
+          }
+          // forward
+          if (!e.shiftKey && document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+          // back
+          if (e.shiftKey && document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        }
+      }
+
+      function enforceFocus(e) {
+        if (!dialog.contains(e.target)) {
+          e.stopPropagation();
+          (firstFocusable || closeBtn).focus();
+        }
+      }
+
+      // attach click handlers to existing About anchors (integrates with menu)
+      aboutAnchors.forEach(function(anchor){
+        anchor.addEventListener('click', function(evt){
+          openAbout(evt);
+        });
+      });
+
+      // Attach handler for external About Us link to open in new tab and attempt to focus it
+      if (aboutUsLink) {
+        aboutUsLink.addEventListener('click', function(evt){
+          evt.preventDefault();
+          // close menu if open to keep current tab state
+          try {
+            var menuNav = document.querySelector('.menu');
+            if (menuNav && menuNav.classList.contains('open')) {
+              var menuToggle = document.getElementById('menuToggle');
+              menuToggle && menuToggle.setAttribute('aria-expanded','false');
+              var siteMenu = document.getElementById('site-menu');
+              siteMenu && siteMenu.setAttribute('aria-hidden','true');
+              menuNav.classList.remove('open');
+            }
+          } catch (err) { /* no-op */ }
+
+          var url = aboutUsLink.href;
+          try {
+            // Try to open a new tab/window. Do not navigate the current tab under any failure.
+            var newWin = window.open(url, '_blank', 'noopener,noreferrer');
+            if (newWin) {
+              try { newWin.focus(); } catch (err) { /* ignore */ }
+              return;
+            }
+            // If window.open returned null (popup blocked), try a synthetic anchor click to request a new tab.
+            var a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            // If that is blocked as well, do nothing to avoid navigating the current tab.
+          } catch (err) {
+            // silently ignore to avoid changing current page
+          }
+        });
+      }
+
+      // close handlers
+      closeBtn.addEventListener('click', function(){ closeAbout(false); });
+      closePrimary.addEventListener('click', function(){ closeAbout(false); });
+
+      // Back to main page: try history.back() first, fallback to '/'
+      backBtn.addEventListener('click', function(){
+        if (supportsHistory && history.length > 1) {
+          history.back();
+        } else {
+          window.location.href = '/';
+        }
+      });
+
+      // clicking backdrop (outside the sheet) closes dialog
+      dialog.addEventListener('click', function(e){
+        if (e.target === dialog) {
+          closeAbout(false);
+        }
+      });
+
+      // popstate handling: open if query indicates about, otherwise close if open
+      window.addEventListener('popstate', function(e){
+        var isAboutState = (e.state && e.state.__rozzter_about) || location.search.indexOf('about=1') !== -1 || location.pathname.endsWith('/about');
+        if (isAboutState) {
+          // open if not already open
+          if (dialog.getAttribute('aria-hidden') === 'true') {
+            openAbout();
+          }
+        } else {
+          if (dialog.getAttribute('aria-hidden') === 'false') {
+            closeAbout(true);
+          }
+        }
+      });
+
+      // On load, if URL indicates about, open dialog
+      document.addEventListener('DOMContentLoaded', function(){
+        var shouldOpen = location.search.indexOf('about=1') !== -1 || location.pathname.endsWith('/about');
+        if (shouldOpen) {
+          // Use setTimeout to allow other onload scripts to finish
+          setTimeout(function(){ openAbout(); }, 10);
+        }
+      });
+    })();
   </script>
 </body>
 </html>
