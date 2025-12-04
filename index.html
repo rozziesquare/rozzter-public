@@ -8,6 +8,8 @@
 
   <!-- Berkshire Swash font for the 'R' -->
   <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -36,7 +38,7 @@
       justify-content:center;
       flex-direction:column;
       gap:1.5rem;
-      padding:3rem 1rem;
+      padding:0.75rem 1rem 0;
       text-align:center;
     }
 
@@ -92,6 +94,17 @@
       clip:rect(0,0,0,0);
       white-space:nowrap;
       border:0;
+    }
+
+    /* For the Rozzie Square link in the Copyright footer */
+    /* Override all link states */
+    .fixed-link,
+    .fixed-link:link,
+    .fixed-link:visited,
+    .fixed-link:hover,
+    .fixed-link:active {
+      color: inherit;        /* Ensure color never changes */
+      text-decoration: underline;
     }
 
     /* Simple responsive spacing for future store links */
@@ -194,7 +207,7 @@
       display:flex;
       align-items:flex-end;
       justify-content:center;
-      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+      background: #000;
       padding:0.5rem;
       visibility:hidden;
       opacity:0;
@@ -244,13 +257,21 @@
       margin:0;
     }
     .about-panel__close {
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
-      color:var(--fg);
-      padding:0.4rem 0.6rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.26);
+      color: var(--fg);
+      width:40px;
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       border-radius:8px;
       cursor:pointer;
-      font-weight:600;
+    }
+    .about-panel__close .material-icons {
+      font-size:28px; /* 24–32px target */
+      line-height:1;
+      color:#fff; /* high contrast on black */
     }
     .about-panel__close:focus { outline:2px solid rgba(255,255,255,0.12); outline-offset:3px; }
 
@@ -310,7 +331,7 @@
 
     <div id="site-menu" class="menu-panel" role="menu" aria-hidden="true">
       <a href="#about" role="menuitem">About Rozzter</a>
-      <a href="https://rozziesquare.com" role="menuitem" id="aboutUsLink" target="_blank" rel="noopener noreferrer">About Us</a>
+      <a href="https://rozzter.com/privacy.html" role="menuitem" id="aboutUsLink" target="_blank" rel="noopener noreferrer">Privacy</a>
     </div>
   </nav>
 
@@ -323,7 +344,7 @@
         <header class="about-panel__header">
           <h1 id="aboutHeading" class="about-panel__title">About Rozzter</h1>
           <div>
-            <button id="aboutCloseBtn" class="about-panel__close" aria-label="Close About">Close</button>
+            <button id="aboutCloseBtn" class="about-panel__close" aria-label="Close About"><span class="material-icons" aria-hidden="true">close</span><span class="sr-only">Close</span></button>
           </div>
         </header>
 
@@ -371,9 +392,15 @@
   <main class="wrap" role="main" aria-labelledby="site-heading">
     <!-- Decorative 'app icon' letter -->
     <div class="card" aria-hidden="false">
-      <span class="sr-only">Rozzter app icon</span>
-      <div class="icon" aria-hidden="true">R</div>
-
+      <div style="margin-top:0; margin-bottom:1.25rem; display:flex; justify-content:center;">
+        <svg id="featureGraphic" viewBox="0 0 1024 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rozzter Feature Graphic" style="max-width:1024px; width:100%; height:auto; background:#2d3748;">
+          <rect x="0" y="0" width="1024" height="500" fill="#2d3748" />
+          <text font-size="92px" x="72" y="177" text-anchor="start" fill="#ffffff" style="font-family:'Roboto', Arial, sans-serif; font-weight:700;">Who’s that?</text>
+          <text font-size="92px" x="162" y="370" text-anchor="start" fill="#ffffff" style="font-family:'Roboto', Arial, sans-serif; font-weight:700;">...</text>
+          <text font-size="205px" x="205.5" y="370" text-anchor="start" fill="#ffffff" style="font-family:'Berkshire Swash', 'Times New Roman', serif;">R</text>
+          <text font-size="92px" x="369" y="370" text-anchor="start" fill="#ffffff" style="font-family:'Roboto', Arial, sans-serif; font-weight:700;">ozzter knows</text>
+        </svg>
+      </div>
       <!-- Message -->
       <h1 id="site-heading" class="message">Stay tuned for the release of the Rozzter app!</h1>
       <p class="sub">We're working hard to bring Rozzter to your devices. Check back soon for download links.</p>
@@ -386,8 +413,9 @@
       </div>
       -->
     </div>
+    </div>
 
-    <footer>&copy; <span id="year"></span> Rozzie Square. All rights reserved.</footer>
+    <footer>&copy; <span id="year"></span> <a href="https://rozziesquare.com/" class="fixed-link" target="_blank">Rozzie Square</a>. All rights reserved.</footer>
   </main>
 
   <script>
