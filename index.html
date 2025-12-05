@@ -32,7 +32,7 @@
     }
 
     .wrap{
-      min-height:100vh;
+      min-height:100dvh;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -226,15 +226,25 @@
       border-radius:12px 12px 0 0;
       box-shadow: 0 -6px 30px rgba(0,0,0,0.6);
       padding:1rem;
-      max-height:92vh;
+      max-height:92dvh;
       overflow:auto;
       -webkit-overflow-scrolling:touch;
+    }
+
+    /* Prevent clipping at the top of the About panel on mobile */
+    @supports (padding-top: env(safe-area-inset-top)) {
+      @media (max-width: 719px) {
+        .about-panel__sheet {
+          padding-top: calc(1rem + env(safe-area-inset-top));
+        }
+      }
     }
 
     /* Desktop: center panel and larger */
     @media (min-width: 720px) {
       .about-panel {
-        align-items:center;
+        align-items:flex-start;
+        justify-content:center;
         padding:2rem;
       }
       .about-panel__sheet {
