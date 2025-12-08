@@ -86589,7 +86589,7 @@ return A.N($async$pw,r)},
 Oh(a,b){var s,r=B.b.ga5(a.split(" (")),q=B.NU.i(0,a)
 if(q==null)q=""
 s=q.length!==0?r+" "+q:r
-return A.awG("https","www.google.com","/search",A.az(["q","who is #"+b+" on the "+s+" football team"],t.N,t.z))},
+return A.awG("https","www.google.com","/search",A.az(["q","Who is #"+b+" on the "+s+" football team?"],t.N,t.z))},
 jf(a){return this.adR(a)},
 adR(a){var s=0,r=A.O(t.H),q,p=this,o
 var $async$jf=A.P(function(b,c){if(b===1)return A.L(c,r)
